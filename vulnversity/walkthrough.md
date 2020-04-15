@@ -16,6 +16,7 @@ The website hosted on port 3333 has a lot of links but none of them work. Also, 
 Lets find more pages using gobuster
 `gobuster dir -u http://10.10.101.118:3333 -w usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt`
 
+![gobuster](https://github.com/noobfromPitt/TryHackMe/blob/master/vulnversity/images/1-gobuster.png)
 
 Looks like there is an upload option in /internal
 
@@ -27,6 +28,7 @@ I tried to upload a .txt file and it said extension not allowed. .php also seems
 
 As suggested, we can use intruder to fuzz for valid extensions. We can also check for the form where it says *extension not allowed* to see if it says otherwise (this can be configured in optoins-grep extract). Also url encoding is enabled by default, but we dont need it since the fuzz object is not in url
 
+![burp-intruder](https://github.com/noobfromPitt/TryHackMe/blob/master/vulnversity/images/2-burp-intruder.png)
 
 Lets create the payload for php reverse shell using the [script](https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php) as suggested and upload it. Make sure to check for all the **CHANGE THIS** comments and chenge them. We can go to /uploads page to see all the files we uploaded. Now the above script will be executed once we run it
 
@@ -61,3 +63,4 @@ The flag is in root.txt in /root
 I also wanted to try if there is a command injection vulnerability in /intenral page since it displays the name of the file. I was thinking if we can add a command to the file name and upload it, then when it runs, it would execute the command. But this is not the case.
 I created a file `echo 'gg' > 'whoami;.phtml'` and uploaded it. But when I execute the file from /internal/uploads page, it just prints 'gg' without executing the whoami command. I guess they are not using `echo filename` directly
 
+![try](https://github.com/noobfromPitt/TryHackMe/blob/master/vulnversity/images/3-try.png)

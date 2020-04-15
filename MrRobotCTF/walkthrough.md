@@ -6,6 +6,8 @@
 
 Lets open the website anyway. the http site give a browser based shell with only few commands. The https site has a self signed certificate, and it also does the same thing
 
+![terminal](https://github.com/noobfromPitt/TryHackMe/blob/master/MrRobotCTF/images/1-terminal.png)
+
 If we use `wakeup` command, then the port seems to be opened. 
 Nothin interesting from the page source too
 
@@ -18,7 +20,7 @@ There is a /images page but we dont have permissions to access it. THere are lot
 /readme and /license have some text but not helpful
 
 /robots has the hint for first key. 
-
+![robots](https://github.com/noobfromPitt/TryHackMe/blob/master/MrRobotCTF/images/2-robots.png)
 
 /key-1-of-3.txt page has the first key
 
@@ -34,6 +36,8 @@ fsociety.dic is also found on /robots page. Going to /fsociety.dic lets us downl
 Wordpress sites has permalinks to posts and pages and also user's pages. So, now that we have a word list that resembles usernames, we can check if any of them are valid. We can use `gobuster` to do this
 `gobuster --url http://10.10.197.250/author/ -w fsociety.dic`
 
+![users](https://github.com/noobfromPitt/TryHackMe/blob/master/MrRobotCTF/images/4-users.png)
+
 The fsociety.dic also has some strings resembling a password. We can use wpscan again to check if any password matches
 Since it was taking a long time and the .dic is huge, i sorted the file
 `cat fsociety.dic | sort -u | uniq > sorted.dic`
@@ -42,6 +46,8 @@ Now start the password brute forcing again
 Now the estimated time is around 30 mins. Earlier it was 4 hrs.
 
 This gives us a valid password: ER28-0652 for elliot
+
+![password](https://github.com/noobfromPitt/TryHackMe/blob/master/MrRobotCTF/images/5-password.png)
 
 After logging in, the user's dashboard is shown. The user doesnt have any posts or comments, but is an administrator. We can also see another user in the users tab. There are alos some images in media secion
 
@@ -100,6 +106,7 @@ nmap --interactive
 
 We can use !bash instead, but somehow I am still robot when i use bash. But when i use sh, i am root.
 
+![shell](https://github.com/noobfromPitt/TryHackMe/blob/master/MrRobotCTF/images/6-shell.png)
 
 the third key is in /root folder
 
